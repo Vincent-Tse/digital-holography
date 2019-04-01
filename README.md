@@ -11,8 +11,10 @@ Vincent Tse
 
 Partner: Alejandro Salazar Lobos
 
+## Components
+
 frensel_reconstruction.m
-  Take interference pattern and reconstruct image
+  * Take interference pattern and reconstruct image
   
 tomography.m
   * Take various frensel reconstructed images of object side view and build a 3D model of such
