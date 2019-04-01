@@ -6,5 +6,7 @@ Nemetallah, G. T., Aylo, R., & Williams, L. A. (2015). Analog and digital hologr
 
 For Phys 397 project
 University of Alberta
+
 Vincent Tse
+
 Partner: Alejandro Salazar Lobos
