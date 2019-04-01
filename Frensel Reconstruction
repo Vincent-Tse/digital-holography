@@ -1,0 +1,60 @@
+function fresnelReconstruction
+clc
+clear all;
+
+%%%Initate images, constants%%
+% Input holgram
+I = imread('queen7.bmp');   %interference pattern
+Er = imread('in_ref7.bmp'); %reference beam
+
+%Initate constant,units in mm
+lambda = 635*10^-6;         % wavelength of He-Ne laser 
+%Lumenera Lw575
+delx = 2.2*10^-3;           % pixel spacing in CCD in x-direction
+dely = 2.2*10^-3;           % pixel spacing in CCD in y-direction
+d = [440];                  % distance of object to CCD in mm (44cm)
+
+%image processing
+%change to black-white scale
+I = double(rgb2gray(I1));
+Er = double(rgb2gray(Er));
+
+% Crop to square image from top left corner
+[Ny,Nx] = size(I);
+minN = min(Ny,Nx);
+I = I(1:minN,1:minN);
+Er = Er(1:minN,1:minN);
+[Ny,Nx] = size(I);
+
+%remove the average to obtain the flucturation
+Im = 1/(Nx*Ny)*sum(sum(I));
+I = I - Im;
+
+
+%%-Reconstruction using the Fresnel integral (refer to eqn. (4.3)-(4.4) from text)
+k = 2*pi/lambda;
+nx = [-Nx/2:1:Nx/2-1];      % create array of points (k in eqn. (4.4b) in Nehemetallah)
+ny = [-Ny/2:1:Ny/2-1];      % l in eqn. (4.4b) in Nehmetallah
+X = nx*delx;
+Y = ny*dely;
+[XX,YY] = meshgrid(X,Y);    % create a mesh of spatial coordinates
+
+figure
+% Generate image
+for m=1:1:length(d)
+    resolution =lambda*d(m)/(Nx*delx);
+    w=exp(-1i*pi/(lambda*d(m))*(XX.^2+YY.^2));              
+    Rec_image=fftshift(ifft2(I1.*Er.*w));                   %Discrete summation using Fourier/inverse Fourier transform
+    Mag_Rec_image=abs(Rec_image);                           %intensity pattern, modulus square to 
+    
+    %display
+    colormap(gray(256))
+    imagesc(nx*resolution,ny*resolution_mm,Mag_Rec_image)
+    title('Reconstructed Hologram')
+    xlabel('mm')
+    ylabel('mm')
+    axis([ -15 15 -15 15])                                  Customize scale for better view
+    title(strcat('Reconstruction at distance:',num2str(d(m)),'mm'))
+    pause(0.5)
+
+end
