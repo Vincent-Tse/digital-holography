@@ -16,7 +16,7 @@ d = [440];                  % distance of object to CCD in mm (44cm)
 
 %image processing
 %change to black-white scale
-I = double(rgb2gray(I1));
+I = double(rgb2gray(I));
 Er = double(rgb2gray(Er));
 
 % Crop to square image from top left corner
